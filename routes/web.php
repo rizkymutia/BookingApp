@@ -1,50 +1,27 @@
-<?php
+<?php 
 
+use App\Http\Controllers\AdminDashboardController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Middleware\AdminMiddleware;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 
-// Welcome page route
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// Admin routes with middleware protection
+Auth::routes();
 
-// routes/web.php
-
-Route::get('/admin/dashboard', [App\Http\Controllers\AdminDashboardController::class, 'index'])->name('admin.dashboard');
-Route::get('/admin/edit/{id}', [App\Http\Controllers\AdminDashboardController::class, 'edit'])->name('admin.edit');
-Route::patch('/admin/update/{id}', [App\Http\Controllers\AdminDashboardController::class, 'update'])->name('admin.update');
-Route::delete('/admin/delete/{id}', [App\Http\Controllers\AdminDashboardController::class, 'destroy'])->name('admin.delete');
-
+// Admin routes
+Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+Route::get('/admin/edit/{id}', [AdminDashboardController::class, 'edit'])->name('admin.edit');
+Route::patch('/admin/update/{id}', [AdminDashboardController::class, 'update'])->name('admin.update');
+Route::delete('/admin/delete/{id}', [AdminDashboardController::class, 'destroy'])->name('admin.delete');
 
 // Admin login routes
 Route::get('/admin/login', [AdminController::class, 'showLoginForm'])->name('admin.login');
 Route::post('/admin/login', [AdminController::class, 'login']);
+
 // User routes
-// routes/web.php
-
-Route::get('/user/login', [UserController::class, 'showLoginForm'])->name('user.login');
-Route::post('/user/login', [UserController::class, 'login'])->name('user.login.post');
-
-Route::post('/login', 'UserController@login')->middleware('auth');
-
-// routes/web.php
-
-Route::get('/users/dashboard', function () {
-    return view('users.dashboard');
-})->name('users.dashboard')->middleware('user');
-
-// routes/web.php
-
-Route::get('/users/dashboard', function () {
-    return view('users.dashboard');
-})->name('users.dashboard')->middleware('can:user.dashboard');
-
-// Authentication routes
-Auth::routes();
-
-// Home route
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/dashboard', [UserController::class, 'dashboard'])->middleware('auth')->name('dashboard');
+Route::post('/dashboard', [UserController::class, 'storeData'])->middleware('auth')->name('dashboard.submit');
+Route::post('/user/data', [UserController::class, 'storeData'])->name('user.data.store')->middleware('auth');

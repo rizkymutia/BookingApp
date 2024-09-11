@@ -5,15 +5,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\UserData;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+
 
 class AdminDashboardController extends Controller
 {
     public function index()
     {
         $users = User::all();
-        return view('admin.dashboard', compact('users'));
+        $data = UserData::all();
+        return view('admin.dashboard', compact('users','data'));
     }
 
     public function edit($id)
@@ -35,4 +38,6 @@ class AdminDashboardController extends Controller
         $user->delete();
         return redirect()->route('admin.dashboard');
     }
+
+
 }

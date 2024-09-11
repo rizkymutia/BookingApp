@@ -15,6 +15,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'name',
+        'ruang',
+        'tanggal',
+    
     ];
 
     protected $permissions = [
