@@ -25,3 +25,7 @@ Route::post('/admin/login', [AdminController::class, 'login']);
 Route::get('/dashboard', [UserController::class, 'dashboard'])->middleware('auth')->name('dashboard');
 Route::post('/dashboard', [UserController::class, 'storeData'])->middleware('auth')->name('dashboard.submit');
 Route::post('/user/data', [UserController::class, 'storeData'])->name('user.data.store')->middleware('auth');
+use App\Http\Controllers\DashboardController;
+
+Route::post('/dashboard', [UserController::class, 'submitForm'])->name('dashboard');
+

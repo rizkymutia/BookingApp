@@ -1,0 +1,10 @@
+.navbar-expand-md navbar-light bg-white shadow-sm {
+    background-color: #fff;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: #0000;
+}

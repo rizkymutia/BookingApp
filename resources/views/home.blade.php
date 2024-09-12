@@ -27,9 +27,9 @@
                         <div>
                             <label for="ruang">Ruangan : </label>
                             <select name="ruang" id="ruang" required>
-                                <option value="ruang1">Ruang 1</option>
-                                <option value="ruang2">Ruang 2</option>
-                                <option value="ruang3">Ruang 3</option>
+                                <option value="ruang1" {{ $selectedRoom == 'ruang1' ? 'selected' : '' }}>Ruang 1</option>
+                                <option value="ruang2" {{ $selectedRoom == 'ruang2' ? 'selected' : '' }}>Ruang 2</option>
+                                <option value="ruang3" {{ $selectedRoom == 'ruang3' ? 'selected' : '' }}>Ruang 3</option>
                             </select>
                         </div>
                         <div>
