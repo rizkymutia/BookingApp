@@ -17,6 +17,8 @@ class User extends Authenticatable
         'password',
         'name',
         'ruang',
+        'jam_mulai',
+        'jam_selesai',
         'tanggal',
     
     ];
@@ -38,4 +40,10 @@ class User extends Authenticatable
     {
         return in_array($role, $this->roles);
     }
+
+    public function userData()
+    {
+    return $this->hasOne(UserData::class, 'user_id');
+    }
+
 }

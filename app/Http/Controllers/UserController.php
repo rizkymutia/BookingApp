@@ -2,13 +2,13 @@
 // App\Http\Controllers\UserController.php
 namespace App\Http\Controllers;
 
-use App\Models\User;
+
 use App\Models\UserData;
+use App\Models\Appointment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\BookingConfirmation;
+
 
 class UserController extends Controller
 {
@@ -33,8 +33,7 @@ class UserController extends Controller
 
     public function dashboard()
     {
-        $selectedRoom = 'ruang1'; // Ganti dengan nilai yang sesuai jika diperlukan
-        return view('home', compact('selectedRoom'));
+        return view('home');
     }
 
     public function storeData(Request $request)
@@ -42,31 +41,52 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'ruang' => 'required|string',
+            'jam_mulai' => 'required|date_format:H:i',
+            'jam_selesai' => 'required|date_format:H:i',
             'tanggal' => 'required|date',
         ]);
+       
+        $tanggal = $request->input('tanggal');
+        $jamMulai = $request->input('jam_mulai');
+        $jamSelesai = $request->input('jam_selesai');
+
+        $exists = Appointment::where('tanggal', $tanggal)
+                              ->whereBetween('jam_mulai', [$jamMulai, $jamSelesai])
+                              ->exists();
+
+        if ($exists) {
+            return back()->with('error', 'Jadwal pada tanggal dan jam ini sudah dipilih.');
+        }
 
         UserData::create([
             'name' => $request->input('name'),
             'ruang' => $request->input('ruang'),
+            'jam_mulai' => $request->input('jam_mulai'),
+            'jam_selesai' => $request->input('jam_selesai'),
             'tanggal' => $request->input('tanggal'),
         ]);
 
-        // Tambahkan return setelah penyimpanan data
-        return redirect()->route('home')->with('status', 'Data stored successfully.');
-    }
-
-    public function submitForm(Request $request)
-    {
-        // Validasi data form
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'ruang' => 'required|string',
-            'tanggal' => 'required|date',
+        Appointment::create([
+            'tanggal' => $tanggal,
+            'jam_mulai' => $jamMulai,
+            'jam_selesai' => $jamSelesai,
+            'name' => $request->input('name'),
+            'ruang' => $request->input('ruang'),
         ]);
 
-        // Mengirim email konfirmasi
-        Mail::to('user@gmail.com')->send(new BookingConfirmation($validatedData));
-
-        return redirect()->route('home')->with('status', 'Form submitted successfully! A confirmation email has been sent.');
+        // Tambahkan return setelah penyimpanan data
+        return redirect()->route('home')->with('success', 'Jadwal berhasil disimpan.');
     }
+
+    public function checkAvailability(Request $request)
+    {
+    $exists = Appointment::where('tanggal', $request->input('tanggal'))
+                          ->where('jam_mulai', $request->input('jam_mulai'))
+                          ->exists();
+
+    return response()->json(['exists' => $exists]);
+    }
+
+
+
 }

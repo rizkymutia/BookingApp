@@ -35,9 +35,18 @@ class AdminDashboardController extends Controller
     public function destroy($id)
     {
         $user = User::find($id);
+        if (!$user) {
+            // Jika user tidak ditemukan, redirect dengan pesan error
+            return redirect()->route('admin.dashboard')->with('error', 'User not found.');
+        }
+    
+        // Jika user ditemukan, hapus data
         $user->delete();
-        return redirect()->route('admin.dashboard');
-    }
+        return redirect()->route('admin.dashboard')->with('success', 'User deleted successfully.');
+     }
+
+
+
 
 
 }

@@ -5,6 +5,7 @@
 
 use Illuminate\Http\Request;
 use App\Models\Admin;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
@@ -39,6 +40,18 @@ class AdminController extends Controller
 {
     // You can add any logic here to display data on the dashboard
     return view('admin.dashboard');
+}
+
+public function massDelete(Request $request)
+{
+    $ids = $request->input('selected_ids');
+    
+    if ($ids) {
+        // Lakukan penghapusan untuk ID yang dipilih
+        User::whereIn('id', $ids)->delete();
+    }
+    
+    return redirect()->route('admin.dashboard')->with('success', 'Data deleted successfully');
 }
 }
 

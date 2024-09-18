@@ -25,7 +25,12 @@ Route::post('/admin/login', [AdminController::class, 'login']);
 Route::get('/dashboard', [UserController::class, 'dashboard'])->middleware('auth')->name('dashboard');
 Route::post('/dashboard', [UserController::class, 'storeData'])->middleware('auth')->name('dashboard.submit');
 Route::post('/user/data', [UserController::class, 'storeData'])->name('user.data.store')->middleware('auth');
+
+Route::delete('/admin/mass-delete', [AdminController::class, 'massDelete'])->name('admin.massDelete');
+
+
+
 use App\Http\Controllers\DashboardController;
 
-Route::post('/dashboard', [UserController::class, 'submitForm'])->name('dashboard');
+// Route::post('/dashboard', [UserController::class, 'submitForm'])->name('dashboard');
 
