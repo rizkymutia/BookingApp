@@ -16,7 +16,7 @@ class AdminDashboardController extends Controller
     {
         $users = User::all();
         $data = UserData::all();
-        return view('admin.dashboard', compact('users','data'));
+        return view('admin.dashboard', compact('users', 'data'));
     }
 
     public function edit($id)
@@ -39,14 +39,9 @@ class AdminDashboardController extends Controller
             // Jika user tidak ditemukan, redirect dengan pesan error
             return redirect()->route('admin.dashboard')->with('error', 'User not found.');
         }
-    
+
         // Jika user ditemukan, hapus data
         $user->delete();
         return redirect()->route('admin.dashboard')->with('success', 'User deleted successfully.');
-     }
-
-
-
-
-
+    }
 }

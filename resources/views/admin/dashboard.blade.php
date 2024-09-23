@@ -15,8 +15,22 @@
         }
     </script>
 </head>
+
 <body>
-    <h1>Admin Dashboard</h1>
+    <nav>
+        <div class="logo">
+            <h4>Admin Dashboard</h4>
+        </div>
+
+        <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" style="display:none;">
+            @csrf
+        </form>
+        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+            Logout
+        </a>
+        </div>
+    </nav>
+
 
     <!-- Form untuk penghapusan massal -->
     <form action="{{ route('admin.massDelete') }}" method="POST">
@@ -26,13 +40,14 @@
         <table>
             <thead>
                 <tr>
-                    <th><input type="checkbox" onclick="toggleSelectAll(this)"> All</th> <!-- Checkbox untuk pilih semua -->
-                    <th>ID |</th>
-                    <th>Email |</th>
-                    <th>Nama |</th>
-                    <th>Ruangan |</th>
-                    <th>Jam |</th>
-                    <th>Tanggal |</th>
+                    <th>Select All  <input type="checkbox" onclick="toggleSelectAll(this)"></th>
+                    <th>ID</th>
+                    <th>Email</th>
+                    <th>Nama</th>
+                    <th>Ruangan</th>
+                    <th>Jam Mulai</th>
+                    <th>Jam Selesai</th>
+                    <th>Tanggal</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -58,7 +73,7 @@
         </table>
 
         <!-- Tombol untuk hapus semua data yang dipilih -->
-        <button type="submit">Delete Selected</button>
+        <button type="submit">Delete</button>
     </form>
     
 </body>

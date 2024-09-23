@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 use App\Http\Controllers\AdminDashboardController;
 use Illuminate\Support\Facades\Route;
@@ -20,6 +20,7 @@ Route::delete('/admin/delete/{id}', [AdminDashboardController::class, 'destroy']
 // Admin login routes
 Route::get('/admin/login', [AdminController::class, 'showLoginForm'])->name('admin.login');
 Route::post('/admin/login', [AdminController::class, 'login']);
+Route::post('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
 
 // User routes
 Route::get('/dashboard', [UserController::class, 'dashboard'])->middleware('auth')->name('dashboard');
@@ -33,4 +34,3 @@ Route::delete('/admin/mass-delete', [AdminController::class, 'massDelete'])->nam
 use App\Http\Controllers\DashboardController;
 
 // Route::post('/dashboard', [UserController::class, 'submitForm'])->name('dashboard');
-
