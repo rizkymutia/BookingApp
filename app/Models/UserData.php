@@ -18,4 +18,9 @@ class UserData extends Model
         'jam_selesai',
         'tanggal',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

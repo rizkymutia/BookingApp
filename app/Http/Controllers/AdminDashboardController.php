@@ -14,9 +14,8 @@ class AdminDashboardController extends Controller
 {
     public function index()
     {
-        $users = User::all();
-        $data = UserData::all();
-        return view('admin.dashboard', compact('users', 'data'));
+        $users = User::with('userData')->get();
+        return view('admin.dashboard', compact('users'));
     }
 
     public function edit($id)

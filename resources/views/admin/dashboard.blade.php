@@ -58,10 +58,10 @@
                     <td>{{ $user->id }}</td>
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->name }}</td>
-                    <td>{{ $user->userData->ruang ?? 'No Data' }}</td> 
-                    <td>{{ $user->userData->jam_mulai ?? 'No Data' }}</td>
-                    <td>{{ $user->userData->jam_selesai ?? 'No Data' }}</td>
-                    <td>{{ $user->userData->tanggal ?? 'No Data' }}</td>
+                    <td>{{ $user->userData ? $user->userData->ruang : 'No Data' }}</td> 
+                    <td>{{ $user->userData ? $user->userData->jam_mulai : 'No Data' }}</td>
+                    <td>{{ $user->userData ? $user->userData->jam_selesai : 'No Data' }}</td>
+                    <td>{{ $user->userData ? $user->userData->tanggal : 'No Data' }}</td>
                     <td>
                         <a href="{{ route('admin.edit', $user->id) }}">Edit</a>
                     </td>

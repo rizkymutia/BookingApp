@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('ruang');
+            $table->time('jam_mulai');
+            $table->time('jam_selesai');
             $table->date('tanggal');
             $table->timestamps();
         });

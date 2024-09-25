@@ -45,14 +45,14 @@ class UserController extends Controller
             'jam_selesai' => 'required|date_format:H:i',
             'tanggal' => 'required|date',
         ]);
-       
+
         $tanggal = $request->input('tanggal');
         $jamMulai = $request->input('jam_mulai');
         $jamSelesai = $request->input('jam_selesai');
 
         $exists = Appointment::where('tanggal', $tanggal)
-                              ->whereBetween('jam_mulai', [$jamMulai, $jamSelesai])
-                              ->exists();
+            ->whereBetween('jam_mulai', [$jamMulai, $jamSelesai])
+            ->exists();
 
         if ($exists) {
             return back()->with('error', 'Jadwal pada tanggal dan jam ini sudah dipilih.');
@@ -75,18 +75,27 @@ class UserController extends Controller
         ]);
 
         // Tambahkan return setelah penyimpanan data
-        return redirect()->route('home')->with('success', 'Jadwal berhasil disimpan.');
+        return redirect()->route('dashboard.result')->with([
+            'name' => $request->input('name'),
+            'ruang' => $request->input('ruang'),
+            'jam_mulai' => $request->input('jam_mulai'),
+            'jam_selesai' => $request->input('jam_selesai'),
+            'tanggal' => $request->input('tanggal'),
+            'success' => 'Data berhasil terkirim',
+        ]);
     }
 
     public function checkAvailability(Request $request)
     {
-    $exists = Appointment::where('tanggal', $request->input('tanggal'))
-                          ->where('jam_mulai', $request->input('jam_mulai'))
-                          ->exists();
+        $exists = Appointment::where('tanggal', $request->input('tanggal'))
+            ->where('jam_mulai', $request->input('jam_mulai'))
+            ->exists();
 
-    return response()->json(['exists' => $exists]);
+        return response()->json(['exists' => $exists]);
     }
 
-
-
+    public function showResult()
+    {
+        return view('result');
+    }
 }

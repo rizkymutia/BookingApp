@@ -20,7 +20,7 @@ class User extends Authenticatable
         'jam_mulai',
         'jam_selesai',
         'tanggal',
-    
+
     ];
 
     protected $permissions = [
@@ -43,7 +43,6 @@ class User extends Authenticatable
 
     public function userData()
     {
-    return $this->hasOne(UserData::class, 'user_id');
+        return $this->hasOne(UserData::class, 'user_id');
     }
-
 }
