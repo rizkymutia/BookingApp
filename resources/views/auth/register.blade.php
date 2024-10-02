@@ -16,12 +16,8 @@
 
                             <div class="col-md-6">
                                 <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
-
-                                @error('name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <p id="name-alert" style="color: red; font-size: 12px; margin-top: 5px;"></p>
+                               
                             </div>
                         </div>
 
@@ -44,12 +40,7 @@
 
                             <div class="col-md-6">
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <p id="password-alert" style="color: red; font-size: 12px; margin-top: 5px;"></p>
                             </div>
                         </div>
 
@@ -74,4 +65,29 @@
         </div>
     </div>
 </div>
+
+<script>
+    const passwordInput = document.getElementById('password');
+    const passwordAlert = document.getElementById('password-alert');
+
+    passwordInput.addEventListener('input', () => {
+        if (passwordInput.value.length < 8) {
+            passwordAlert.textContent = '*Password harus terdiri dari 8 karakter atau lebih';
+        }else {
+            passwordAlert.textContent = '';
+        }
+    });
+
+    nameInput.addEventListener('input', () => {
+            const nameValue = nameInput.value;
+            const regex = /^[a-zA-Z\s]+$/;
+            if (!regex.test(nameValue) || nameValue.length < 3) {
+                nameAlert.textContent = 'Nama harus berupa huruf dan minimal 3 karakter';
+                nameAlert.classList.add('error');
+            } else {
+                nameAlert.textContent = '';
+                nameAlert.classList.remove('error');
+            }
+        });
+</script>
 @endsection

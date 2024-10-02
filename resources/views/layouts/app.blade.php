@@ -10,12 +10,22 @@
     <title>BookingApp</title>
 
     <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
-    <link rel="stylesheet" href="app.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.css">
 
     <!-- Scripts -->
     {{--@vite(['resources/sass/app.scss', 'resources/js/app.js'])--}}
+    <style>
+        .alert-message {
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .alert-message.error {
+            color: red;
+        }
+    </style>
 </head>
 <body>
     <div id="app">

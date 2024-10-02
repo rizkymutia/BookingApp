@@ -19,6 +19,8 @@ class UserData extends Model
         'tanggal',
     ];
 
+    protected $primaryKey = 'user_id';
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
