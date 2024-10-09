@@ -54,7 +54,7 @@
 
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" onclick="alertSuccess(event)" class="btn btn-primary">
                                     {{ __('Register') }}
                                 </button>
                             </div>
@@ -78,6 +78,9 @@
         }
     });
 
+    const nameInput = document.getElementById('nama');
+    const nameAlert = document.getElementById('name-alert');
+
     nameInput.addEventListener('input', () => {
             const nameValue = nameInput.value;
             const regex = /^[a-zA-Z\s]+$/;
@@ -89,5 +92,21 @@
                 nameAlert.classList.remove('error');
             }
         });
+
+        function alertSuccess(event) {
+        event.preventDefault(); // Prevent form submission
+        
+        Swal.fire({
+            title: "Berhasil!",
+            text: "Berhasil Membuat Akun!",
+            icon: "success",
+            timer: 2000,
+            showConfirmButton: false
+        }).then(() => {
+            // After the alert is closed, submit the form
+            event.target.closest('form').submit();
+        });
+    }
+  
 </script>
 @endsection

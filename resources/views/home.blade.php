@@ -27,6 +27,12 @@
                                 <p id="name-alert" class = "alert-message"></p>
                             </div>
                         </div>
+                        <div class="row mb-3">
+                            <label for="nomor" class="col-md-4 col-form-label text-md-end">{{ __('Nomor HP') }}</label>
+                            <div class="col-md-6">
+                                <input type="text" id="nomor" name="nomor" required>
+                            </div>
+                        </div>
                         <div>
                             <label for="ruang">Ruangan : </label>
                             <select name="ruang" id="ruang" required>
@@ -69,7 +75,7 @@
         const nameInput = document.getElementById('nama');
         const nameAlert = document.getElementById('name-alert');
 
-        nameInput.addEventListener('input', () => {
+        nameInput.addEventListener('input', function() {
             const nameValue = nameInput.value;
             const regex = /^[a-zA-Z\s]+$/;
             if (!regex.test(nameValue) || nameValue.length < 3) {
@@ -83,12 +89,16 @@
     });
 
     function alertSuccess(event) {
+        event.preventDefault();
         Swal.fire({
-        title: "Berhasil!",
-        text: "Berhasil mengisi data!",
-        icon: "success"
-        timer: 5000
-    });
+            title: "Berhasil!",
+            text: "Berhasil mengisi data!",
+            icon: "success",
+            timer: 5000,
+        }).then(() => {
+            // After the alert is closed, submit the form
+            event.target.closest('form').submit();
+        });
     }
 </script>
 @endsection

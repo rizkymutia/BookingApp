@@ -40,18 +40,18 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'nomor' => 'required|string',
             'ruang' => 'required|string',
             'jam_mulai' => 'required|date_format:H:i',
             'jam_selesai' => 'required|date_format:H:i',
             'tanggal' => 'required|date',
         ]);
 
-        $tanggal = $request->input('tanggal');
-        $jamMulai = $request->input('jam_mulai');
-        $jamSelesai = $request->input('jam_selesai');
-
-        $exists = Appointment::where('tanggal', $tanggal)
-            ->whereBetween('jam_mulai', [$jamMulai, $jamSelesai])
+        $exists = UserData::where('tanggal', $request->input('tanggal'))
+            ->where(function ($query) use ($request) {
+                $query->whereBetween('jam_mulai', [$request->input('jam_mulai'), $request->input('jam_selesai')])
+                    ->orWhereBetween('jam_selesai', [$request->input('jam_mulai'), $request->input('jam_selesai')]);
+            })
             ->exists();
 
         if ($exists) {
@@ -60,23 +60,18 @@ class UserController extends Controller
 
         UserData::create([
             'name' => $request->input('name'),
+            'nomor' => $request->input('nomor'),
             'ruang' => $request->input('ruang'),
             'jam_mulai' => $request->input('jam_mulai'),
             'jam_selesai' => $request->input('jam_selesai'),
             'tanggal' => $request->input('tanggal'),
         ]);
 
-        Appointment::create([
-            'tanggal' => $tanggal,
-            'jam_mulai' => $jamMulai,
-            'jam_selesai' => $jamSelesai,
-            'name' => $request->input('name'),
-            'ruang' => $request->input('ruang'),
-        ]);
 
         // Tambahkan return setelah penyimpanan data
         return redirect()->route('dashboard.result')->with([
             'name' => $request->input('name'),
+            'nomor' => $request->input('nomor'),
             'ruang' => $request->input('ruang'),
             'jam_mulai' => $request->input('jam_mulai'),
             'jam_selesai' => $request->input('jam_selesai'),
@@ -87,7 +82,7 @@ class UserController extends Controller
 
     public function checkAvailability(Request $request)
     {
-        $exists = Appointment::where('tanggal', $request->input('tanggal'))
+        $exists = UserData::where('tanggal', $request->input('tanggal'))
             ->where('jam_mulai', $request->input('jam_mulai'))
             ->exists();
 

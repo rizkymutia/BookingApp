@@ -15,12 +15,6 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'name',
-        'ruang',
-        'jam_mulai',
-        'jam_selesai',
-        'tanggal',
-
     ];
 
     protected $permissions = [
@@ -39,10 +33,5 @@ class User extends Authenticatable
     public function hasRole($role)
     {
         return in_array($role, $this->roles);
-    }
-
-    public function userData()
-    {
-        return $this->hasOne(UserData::class, 'user_id');
     }
 }

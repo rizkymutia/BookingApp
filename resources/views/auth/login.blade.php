@@ -30,12 +30,8 @@
 
                             <div class="col-md-6">
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <p id="password-alert" style="color: red; font-size: 12px; margin-top: 5px;"></p>
+                                
                             </div>
                         </div>
 
@@ -53,7 +49,7 @@
 
                         <div class="row mb-0">
                             <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" onclick="alertSuccess(event)" class="btn btn-primary">
                                     {{ __('Login') }}
                                 </button>
 
@@ -70,4 +66,33 @@
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function(){
+        const passwordInput = document.getElementById('password');
+        const passwordAlert = document.getElementById('password-alert');
+
+        passwordInput.addEventListener('input', function() {
+            if (passwordInput.value.length < 8) {
+                passwordAlert.textContent = '*Password harus terdiri dari 8 karakter atau lebih';
+            }else {
+                passwordAlert.textContent = '';
+            }
+        });
+
+    });  
+            
+    function alertSuccess(event) {
+        event.preventDefault(); // Prevent form submission
+        
+        Swal.fire({
+            title: "Login Berhasil!",
+            icon: "success",
+            timer: 2000,
+            showConfirmButton: false
+        }).then(() => {
+            // After the alert is closed, submit the form
+            event.target.closest('form').submit();
+        });
+    }
+</script>
 @endsection

@@ -42,8 +42,8 @@
                 <tr>
                     <th>Select All  <input type="checkbox" onclick="toggleSelectAll(this)"></th>
                     <th>ID</th>
-                    <th>Email</th>
                     <th>Nama</th>
+                    <th>Nomor HP</th>
                     <th>Ruangan</th>
                     <th>Jam Mulai</th>
                     <th>Jam Selesai</th>
@@ -52,18 +52,18 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($users as $user)
+                @foreach($userData as $data)
                 <tr>
-                    <td><input type="checkbox" name="selected_ids[]" value="{{ $user->id }}" class="select-item"></td>
-                    <td>{{ $user->id }}</td>
-                    <td>{{ $user->email }}</td>
-                    <td>{{ $user->name }}</td>
-                    <td>{{ $user->userData ? $user->userData->ruang : 'No Data' }}</td> 
-                    <td>{{ $user->userData ? $user->userData->jam_mulai : 'No Data' }}</td>
-                    <td>{{ $user->userData ? $user->userData->jam_selesai : 'No Data' }}</td>
-                    <td>{{ $user->userData ? $user->userData->tanggal : 'No Data' }}</td>
+                    <td><input type="checkbox" name="selected_ids[]" value="{{ $data->user_id }}" class="select-item"></td>
+                    <td>{{ $data->user_id }}</td> <!-- Pastikan ini sesuai dengan kolom yang ada di user_data -->
+                    <td>{{ $data->name }}</td>
+                    <td>{{ $data->nomor }}</td>
+                    <td>{{ $data->ruang }}</td> 
+                    <td>{{ $data->jam_mulai }}</td>
+                    <td>{{ $data->jam_selesai }}</td>
+                    <td>{{ $data->tanggal }}</td>
                     <td>
-                        <a href="{{ route('admin.edit', $user->id) }}">Edit</a>
+                        <a href="{{ route('admin.edit', $data->user_id) }}">Edit</a>
                     </td>
                 </tr>
                 @endforeach

@@ -13,16 +13,10 @@ class UserData extends Model
 
     protected $fillable = [
         'name',
+        'nomor',
         'ruang',
         'jam_mulai',
         'jam_selesai',
         'tanggal',
     ];
-
-    protected $primaryKey = 'user_id';
-
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
 }

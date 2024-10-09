@@ -16,55 +16,48 @@ class AdminDashboardController extends Controller
 {
     public function index()
     {
-        $users = User::with('userData')->get();
-        return view('admin.dashboard', compact('users'));
+        $userData = UserData::all();
+        return view('admin.dashboard', compact('userData'));
     }
 
     public function edit($id)
     {
-        $user = User::find($id);
-        return view('admin.edit', compact('user'));
+        $userData = UserData::where('user_id', $id)->first();
+
+        if (!$userData) {
+            return redirect()->back()->with('error', 'Data tidak ditemukan.');
+        }
+        return view('admin.edit', compact('userData'));
     }
 
     public function update(Request $request, $id)
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'nomor' => 'required|string',
             'ruang' => 'required|string',
             'jam_mulai' => 'required|date_format:H:i',
             'jam_selesai' => 'required|date_format:H:i|after:jam_mulai',
             'tanggal' => 'required|date',
         ]);
 
-        $user = User::findOrFail($id);
-        $user->update($request->only(['name']));
+        $userData = UserData::find($id);
+        $userData->update($request->only(['name', 'nomor', 'ruang', 'jam_mulai', 'jam_selesai', 'tanggal']));
 
-        $userData = $user->userData;
-
-        if ($userData) {
-            // Pastikan userData memiliki ID yang valid
-            $userData->update($request->only(['ruang', 'jam_mulai', 'jam_selesai', 'tanggal']));
-        } else {
-            // Jika data user_data belum ada, buat baru
-            $user->userData()->create($request->only(['ruang', 'jam_mulai', 'jam_selesai', 'tanggal']));
-        }
-
-        return redirect()->route('admin.dashboard')->with('success', 'User updated successfully.');
+        return redirect()->route('admin.dashboard')->with('success', 'User data berhasil diperbarui!');
     }
-
-
 
 
     public function destroy($id)
     {
-        $user = User::find($id);
-        if (!$user) {
+        $userData = UserData::find($id);
+        if (!$userData) {
             // Jika user tidak ditemukan, redirect dengan pesan error
-            return redirect()->route('admin.dashboard')->with('error', 'User not found.');
+            return redirect()->route('admin.dashboard')->with('error', 'User data tidak ditemukan.');
         }
 
         // Jika user ditemukan, hapus data
-        $user->delete();
-        return redirect()->route('admin.dashboard')->with('success', 'User deleted successfully.');
+        $userData->delete();
+        return redirect()->route('admin.dashboard')->with('success', 'User data berhasil dihapus.');
     }
 }
