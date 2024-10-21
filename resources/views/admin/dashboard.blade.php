@@ -33,7 +33,7 @@
 
 
     <!-- Form untuk penghapusan massal -->
-    <form action="{{ route('admin.massDelete') }}" method="POST">
+    <form action="{{ route('admin.massDelete') }}" method="POST" onsubmit="return confirm('Apakah anda yakin ingin menghapus semuanya ?');">
         @csrf
         @method('DELETE')
 

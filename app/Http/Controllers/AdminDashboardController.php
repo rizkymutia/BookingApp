@@ -4,11 +4,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+
 use App\Models\UserData;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Log;
+
 
 
 
@@ -41,7 +41,8 @@ class AdminDashboardController extends Controller
             'tanggal' => 'required|date',
         ]);
 
-        $userData = UserData::find($id);
+        $userData = UserData::where('user_id', $id)->first();
+
         $userData->update($request->only(['name', 'nomor', 'ruang', 'jam_mulai', 'jam_selesai', 'tanggal']));
 
         return redirect()->route('admin.dashboard')->with('success', 'User data berhasil diperbarui!');
@@ -59,5 +60,21 @@ class AdminDashboardController extends Controller
         // Jika user ditemukan, hapus data
         $userData->delete();
         return redirect()->route('admin.dashboard')->with('success', 'User data berhasil dihapus.');
+    }
+
+    public function massDelete(Request $request)
+    {
+        $request->validate([
+            'selected_ids' => 'required|array|min:1',
+        ]);
+
+        $ids = $request->input('selected_ids');
+
+        if ($ids) {
+            // Lakukan penghapusan untuk ID yang dipilih
+            UserData::whereIn('user_id', $ids)->delete();
+        }
+
+        return redirect()->route('admin.dashboard')->with('success', 'Data deleted successfully');
     }
 }

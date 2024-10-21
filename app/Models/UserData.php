@@ -10,6 +10,8 @@ class UserData extends Model
     use HasFactory;
 
     protected $table = 'user_data';
+    protected $primaryKey = 'user_id'; // Pastikan primary key ditentukan
+    public $incrementing = true; // Apakah kolom id adalah auto-increment
 
     protected $fillable = [
         'name',

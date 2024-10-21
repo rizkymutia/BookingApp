@@ -18,19 +18,19 @@
                 </div>
                 <div>
                     <h1>User Dashboard</h1>
-                    <form method="POST" action="{{ route('dashboard') }}">
+                    <form method="POST" action="{{ route('confirm') }}">
                         @csrf
                         <div class = "row mb-3">
                             <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Name') }}</label>
                             <div class = "col-md-6">
-                                <input type="text" id="nama" name="name" required>
+                                <input type="text" id="nama" name="name" required placeholder="Masukkan Nama Lengkap">
                                 <p id="name-alert" class = "alert-message"></p>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <label for="nomor" class="col-md-4 col-form-label text-md-end">{{ __('Nomor HP') }}</label>
                             <div class="col-md-6">
-                                <input type="text" id="nomor" name="nomor" required>
+                                <input type="text" id="nomor" name="nomor" required placeholder="+62">
                             </div>
                         </div>
                         <div>
@@ -49,19 +49,9 @@
                         </div>
                         <div>
                             <label for="tanggal">Tanggal : </label>
-                            <input type="date" id="tanggal" name="tanggal" required>
+                            <input type="date" id="tanggal" name="tanggal"  min="{{ date('Y-m-d') }}" required>
                         </div>
-                        <button type="submit" onclick="alertSuccess(event)">Submit</button>
-                        @if (session('success'))
-                        <div class="alert alert-success">
-                             {{ session('success') }}
-                        </div>
-                        @endif
-                        @if (session('error'))
-                        <div class="alert alert-danger">
-                            {{ session('error') }}
-                        </div>
-                        @endif
+                        <button type="submit">Submit</button>
 
                     </form>
                 </div>
@@ -69,36 +59,4 @@
         </div>
     </div>
 </div> 
-
-<script>
-    document.addEventListener('DOMContentLoaded', function(){
-        const nameInput = document.getElementById('nama');
-        const nameAlert = document.getElementById('name-alert');
-
-        nameInput.addEventListener('input', function() {
-            const nameValue = nameInput.value;
-            const regex = /^[a-zA-Z\s]+$/;
-            if (!regex.test(nameValue) || nameValue.length < 3) {
-                nameAlert.textContent = 'Nama harus berupa huruf dan minimal 3 karakter';
-                nameAlert.classList.add('error');
-            } else {
-                nameAlert.textContent = '';
-                nameAlert.classList.remove('error');
-            }
-        });
-    });
-
-    function alertSuccess(event) {
-        event.preventDefault();
-        Swal.fire({
-            title: "Berhasil!",
-            text: "Berhasil mengisi data!",
-            icon: "success",
-            timer: 5000,
-        }).then(() => {
-            // After the alert is closed, submit the form
-            event.target.closest('form').submit();
-        });
-    }
-</script>
 @endsection
