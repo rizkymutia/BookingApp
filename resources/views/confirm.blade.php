@@ -14,7 +14,6 @@
                         </div>
                     @endif
                 
-                
                     <h2>Data yang Telah Dimasukkan</h2>
                     <p><strong>Nama:</strong> {{ session('confirmData')['name'] ?? 'No data' }}</p>
                     <p><strong>Nomor:</strong> {{ session('confirmData')['nomor'] ?? 'No data' }}</p>
@@ -24,20 +23,22 @@
                     <p><strong>Tanggal:</strong> {{ session('confirmData')['tanggal'] ?? 'No data' }}</p>
                     <p><strong>Apa anda yakin mengirim formulir ini ?</strong></p>
                 
-                <form action="{{ route('dashboard.submit') }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="nama" value="{{ session('confirmData')['name'] ?? 'No data' }}">
-                    <input type="hidden" name="nomor" value="{{ session('confirmData')['nomor'] ?? 'No data' }}">
-                    <input type="hidden" name="ruang" value="{{ session('confirmData')['ruang'] ?? 'No data' }}">
-                    <input type="hidden" name="jam_mulai" value="{{ session('confirmData')['jam_mulai'] ?? 'No data' }}">
-                    <input type="hidden" name="jam_selesai" value="{{ session('confirmData')['jam_selesai'] ?? 'No data' }}">
-                    <input type="hidden" name="tanggal" value="{{ session('confirmData')['tanggal'] ?? 'No data' }}">
+                    <!-- Formulir HTML -->
+                    <form action="{{ route('dashboard.submit') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="nama" value="{{ session('confirmData')['name'] ?? 'No data' }}">
+                        <input type="hidden" name="nomor" value="{{ session('confirmData')['nomor'] ?? 'No data' }}">
+                        <input type="hidden" name="ruang" value="{{ session('confirmData')['ruang'] ?? 'No data' }}">
+                        <input type="hidden" name="jam_mulai" value="{{ session('confirmData')['jam_mulai'] ?? 'No data' }}">
+                        <input type="hidden" name="jam_selesai" value="{{ session('confirmData')['jam_selesai'] ?? 'No data' }}">
+                        <input type="hidden" name="tanggal" value="{{ session('confirmData')['tanggal'] ?? 'No data' }}">
 
-                    <button type="submit" onclick="alertSuccess(event)">Submit</button>
-                    <button type="button" onclick="window.location.href='{{ route('home') }}'">Kembali</button>
+                        <button type="submit" onclick="alertSuccess(event)">Submit</button>
+                        <button type="button" onclick="window.location.href='{{ route('home') }}'">Kembali</button>
+
                         @if (session('success'))
                         <div class="alert alert-success">
-                             {{ session('success') }}
+                            {{ session('success') }}
                         </div>
                         @endif
                         @if (session('error'))
@@ -45,7 +46,7 @@
                             {{ session('error') }}
                         </div>
                         @endif
-                </form>
+                    </form>
                 </div> 
             </div>
         </div>

@@ -36,9 +36,16 @@
                         <div>
                             <label for="ruang">Ruangan : </label>
                             <select name="ruang" id="ruang" required>
-                                <option value="ruang1" >Ruang 1</option>
-                                <option value="ruang2" >Ruang 2</option>
-                                <option value="ruang3">Ruang 3</option>
+                                <option value="Aula Lantai III :R.Ki Hajar Dewantara" >Aula Lantai III :R.Ki Hajar Dewantara</option>
+                                <option value="R.Rapat Kecil Lantai III :R.P.Diponegoro" >R.Rapat Kecil Lantai III :R.P.Diponegoro</option>
+                                <option value="R.Rapat 1 Lantai II :R.Pangsar Sudirman">R.Rapat 1 Lantai II :R.Pangsar Sudirman</option>
+                                <option value="R.Dr.Sutomo :R.Rapat II Lantai II">R.Dr.Sutomo :R.Rapat II Lantai II</option>
+                                <option value="R.Dr.Wahidin Sudiro Husodo :R.Rapat Hall">R.Dr.Wahidin Sudiro Husodo :R.Rapat Hall</option>
+                                <option value="R.Rapat R.A Kartini :R.Rapat Lantai I">R.Rapat R.A Kartini :R.Rapat Lantai I</option>
+                                <option value="R.H.Cokroaminoto :Ex SKB Utara">R.H.Cokroaminoto :Ex SKB Utara</option>
+                                <option value="R.H.Agus Salim :Aula Ex SKB">R.H.Agus Salim :Aula Ex SKB</option>
+                                <option value="R.Sekretariat Dewan Pendidikan :Ex SKB Utara">R.Sekretariat Dewan Pendidikan :Ex SKB Utara</option>
+                                <option value="R.Rapat Sultan Agung :R.Rapat Lantai III Kecil">R.Rapat Sultan Agung :R.Rapat Lantai III Kecil</option>
                             </select>
                         </div>
                         <div>

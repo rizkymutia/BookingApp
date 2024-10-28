@@ -6,10 +6,14 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BookingController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Auth::routes();
+Route::middleware(['auth'])->group(function () {
+    Route::post('/confirm-booking', [BookingController::class, 'confirmBooking']);
+});
 
 // Admin routes
 Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
@@ -35,3 +39,5 @@ Route::post('/confirm', [UserController::class, 'confirm'])->name('confirm');
 Route::post('/store', [UserController::class, 'storeData'])->name('storeData');
 
 Route::get('/confirm/result', [UserController::class, 'showResult'])->name('confirm.result');
+
+Route::post('/booking/confirm', [BookingController::class, 'confirmBooking'])->name('booking.confirmBooking');
