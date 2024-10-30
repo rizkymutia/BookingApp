@@ -13,6 +13,9 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Authentication routes
 Auth::routes();
+Route::middleware(['auth'])->group(function () {
+    Route::post('/confirm-booking', [BookingController::class, 'confirmBooking']);
+});
 
 // Authenticated routes
 Route::middleware(['auth'])->group(function () {
@@ -44,3 +47,5 @@ Route::get('/form', [UserController::class, 'showForm'])->name('home');
 Route::post('/confirm', [UserController::class, 'confirm'])->name('confirm');
 Route::post('/store', [UserController::class, 'storeData'])->name('storeData');
 Route::get('/confirm/result', [UserController::class, 'showResult'])->name('confirm.result');
+
+Route::post('/booking/confirm', [BookingController::class, 'confirmBooking'])->name('booking.confirmBooking');

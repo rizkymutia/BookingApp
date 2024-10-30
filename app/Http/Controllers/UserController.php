@@ -30,9 +30,14 @@ class UserController extends Controller
             'tanggal' => 'required|date|after_or_equal:today',
         ]);
 
+<<<<<<< HEAD
         session()->put('confirmData', $validatedData);
         Log::info('Confirm Data:', $validatedData);
 
+=======
+        session()->flash('confirmData', $validatedData);
+        Log::info('Confirm Data:', $validatedData);
+>>>>>>> 2ff84be64a0372a1c4c84c09a7f956636ff1db71
         return redirect()->route('confirm.result');
     }
 
@@ -98,9 +103,13 @@ class UserController extends Controller
             'tanggal' => $request->input('tanggal'),
         ];
         // Tambahkan return setelah penyimpanan data
+<<<<<<< HEAD
         $bookingDetails = $request->only(['name', 'nomor', 'ruang', 'jam_mulai', 'jam_selesai', 'tanggal']);
         session(['booking_details' => $bookingDetails]);
 
+=======
+        session()->put('booking_details', $bookingDetails);
+>>>>>>> 2ff84be64a0372a1c4c84c09a7f956636ff1db71
         return redirect()->route('booking.confirmBooking');
     }
     public function checkAvailability(Request $request)
@@ -118,8 +127,11 @@ class UserController extends Controller
 
         // Periksa apakah $data ada dan memiliki 'name'
         if (!$data || !isset($data['name'])) {
+<<<<<<< HEAD
             Log::error('Session confirmData not available or missing required fields');
 
+=======
+>>>>>>> 2ff84be64a0372a1c4c84c09a7f956636ff1db71
             return redirect()->route('home')->with('error', 'No data available.');
         }
 

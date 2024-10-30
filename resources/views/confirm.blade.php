@@ -24,7 +24,11 @@
                     <p><strong>Apa anda yakin mengirim formulir ini ?</strong></p>
                 
                     <!-- Formulir HTML -->
+<<<<<<< HEAD
                     <form action="{{ route('booking.confirmBooking') }}" method="POST">
+=======
+                    <form action="{{ route('dashboard.submit') }}" method="POST">
+>>>>>>> 2ff84be64a0372a1c4c84c09a7f956636ff1db71
                         @csrf
                         <input type="hidden" name="nama" value="{{ session('confirmData')['name'] ?? 'No data' }}">
                         <input type="hidden" name="nomor" value="{{ session('confirmData')['nomor'] ?? 'No data' }}">
@@ -32,8 +36,11 @@
                         <input type="hidden" name="jam_mulai" value="{{ session('confirmData')['jam_mulai'] ?? 'No data' }}">
                         <input type="hidden" name="jam_selesai" value="{{ session('confirmData')['jam_selesai'] ?? 'No data' }}">
                         <input type="hidden" name="tanggal" value="{{ session('confirmData')['tanggal'] ?? 'No data' }}">
+<<<<<<< HEAD
                         <input type="hidden" name="booking_details" value="{{ json_encode(session('booking_details')) }}">
 
+=======
+>>>>>>> 2ff84be64a0372a1c4c84c09a7f956636ff1db71
 
                         <button type="submit" onclick="alertSuccess(event)">Submit</button>
                         <button type="button" onclick="window.location.href='{{ route('home') }}'">Kembali</button>
