@@ -8,7 +8,7 @@
                 <div class="card-header">{{ __('Login') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
+                    <form id="login-form" method="POST" action="{{ route('login') }}">
                         @csrf
 
                         <div class="row mb-3">
@@ -31,7 +31,6 @@
                             <div class="col-md-6">
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
                                 <p id="password-alert" style="color: red; font-size: 12px; margin-top: 5px;"></p>
-                                
                             </div>
                         </div>
 
@@ -49,7 +48,7 @@
 
                         <div class="row mb-0">
                             <div class="col-md-8 offset-md-4">
-                                <button type="submit" onclick="alertSuccess(event)" class="btn btn-primary">
+                                <button type="submit" class="btn btn-primary">
                                     {{ __('Login') }}
                                 </button>
 
@@ -66,6 +65,8 @@
         </div>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function(){
         const passwordInput = document.getElementById('password');
@@ -74,25 +75,57 @@
         passwordInput.addEventListener('input', function() {
             if (passwordInput.value.length < 8) {
                 passwordAlert.textContent = '*Password harus terdiri dari 8 karakter atau lebih';
-            }else {
+            } else {
                 passwordAlert.textContent = '';
             }
         });
 
-    });  
-            
-    function alertSuccess(event) {
-        event.preventDefault(); // Prevent form submission
-        
-        Swal.fire({
-            title: "Login Berhasil!",
-            icon: "success",
-            timer: 2000,
-            showConfirmButton: false
-        }).then(() => {
-            // After the alert is closed, submit the form
-            event.target.closest('form').submit();
+        const loginForm = document.getElementById('login-form');
+        loginForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Use Fetch API to send the form data
+            const formData = new FormData(loginForm);
+            fetch(loginForm.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                },
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Show success alert if login is successful
+                    Swal.fire({
+                        title: "Login Berhasil!",
+                        icon: "success",
+                        timer: 2000,
+                        showConfirmButton: false
+                    }).then(() => {
+                        // Redirect to the intended page or dashboard
+                        window.location.href = response.url; // Adjust this to the correct URL
+                    });
+                } else {
+                    // Handle errors (e.g., invalid credentials)
+                    return response.json().then(data => {
+                        Swal.fire({
+                            title: "Login Gagal!",
+                            text: data.message || "Silakan coba lagi.",
+                            icon: "error"
+                        });
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire({
+                    title: "Terjadi Kesalahan!",
+                    text: "Silakan coba lagi.",
+                    icon: "error"
+                });
+            });
         });
-    }
+    });
 </script>
 @endsection

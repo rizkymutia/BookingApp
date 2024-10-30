@@ -7,15 +7,18 @@ use App\Models\UserData;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Log;
 
 
 class UserController extends Controller
 {
+
     public function showForm()
     {
 
         return view('home');
     }
+
     public function confirm(Request $request)
     {
         $validatedData = $request->validate([
@@ -27,7 +30,9 @@ class UserController extends Controller
             'tanggal' => 'required|date|after_or_equal:today',
         ]);
 
-        session()->flash('confirmData', $validatedData);
+        session()->put('confirmData', $validatedData);
+        Log::info('Confirm Data:', $validatedData);
+
         return redirect()->route('confirm.result');
     }
 
@@ -38,16 +43,14 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
-        $request->validate([
-            'email' => 'required|string|email|max:255',
-            'password' => 'required|string|min:8',
-        ]);
+        $credentials = $request->only('email', 'password');
 
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            return redirect()->route('home')->with('message', 'Login successful');
-        } else {
-            return redirect()->back()->withErrors(['Invalid email or password']);
+        if (Auth::attempt($credentials)) {
+            // Authentication passed...
+            return response()->json(['success' => true, 'url' => '/dashboard']); // Redirect URL after successful login
         }
+
+        return response()->json(['success' => false, 'message' => 'Invalid credentials.'], 401);
     }
 
     public function dashboard()
@@ -77,7 +80,7 @@ class UserController extends Controller
             return back()->with('error', 'Jadwal pada tanggal dan jam ini sudah dipilih.');
         }
 
-        UserData::create([
+        $userData = UserData::create([
             'name' => $request->input('name'),
             'nomor' => $request->input('nomor'),
             'ruang' => $request->input('ruang'),
@@ -86,9 +89,19 @@ class UserController extends Controller
             'tanggal' => $request->input('tanggal'),
         ]);
 
-
+        $bookingDetails = [
+            'name' => $request->input('name'),
+            'nomor' => $request->input('nomor'),
+            'ruang' => $request->input('ruang'),
+            'jam_mulai' => $request->input('jam_mulai'),
+            'jam_selesai' => $request->input('jam_selesai'),
+            'tanggal' => $request->input('tanggal'),
+        ];
         // Tambahkan return setelah penyimpanan data
-        return redirect()->route('home')->with('message', 'Data berhasil ditambahkan');
+        $bookingDetails = $request->only(['name', 'nomor', 'ruang', 'jam_mulai', 'jam_selesai', 'tanggal']);
+        session(['booking_details' => $bookingDetails]);
+
+        return redirect()->route('booking.confirmBooking');
     }
     public function checkAvailability(Request $request)
     {
@@ -103,17 +116,34 @@ class UserController extends Controller
     {
         $data = session('confirmData');
 
-        if (!$data) {
+        // Periksa apakah $data ada dan memiliki 'name'
+        if (!$data || !isset($data['name'])) {
+            Log::error('Session confirmData not available or missing required fields');
+
             return redirect()->route('home')->with('error', 'No data available.');
         }
 
+        // Akses data dengan aman
+        $userData = UserData::where('name', $data['name'])->first();
+
+        // Simpan data ke database setelah konfirmasi
+        UserData::create([
+            'name' => $data['name'],
+            'nomor' => $data['nomor'],
+            'ruang' => $data['ruang'],
+            'jam_mulai' => $data['jam_mulai'],
+            'jam_selesai' => $data['jam_selesai'],
+            'tanggal' => $data['tanggal'],
+        ]);
+
         return view('confirm', [
-            'name' => $data['name'] ?? null,
-            'nomor' => $data['nomor'] ?? null,
-            'ruang' => $data['ruang'] ?? null,
-            'jam_mulai' => $data['jam_mulai'] ?? null,
-            'jam_selesai' => $data['jam_selesai'] ?? null,
-            'tanggal' => $data['tanggal'] ?? null,
+            'name' => $data['name'],
+            'nomor' => $data['nomor'],
+            'ruang' => $data['ruang'],
+            'jam_mulai' => $data['jam_mulai'],
+            'jam_selesai' => $data['jam_selesai'],
+            'tanggal' => $data['tanggal'],
+            'userData' => $userData,
         ]);
     }
 }

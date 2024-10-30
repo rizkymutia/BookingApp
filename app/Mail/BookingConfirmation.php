@@ -10,14 +10,16 @@ class BookingConfirmation extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $data; // Deklarasikan variabel untuk menyimpan data
+    public $bookingDetails; // Deklarasikan variabel untuk menyimpan data
 
     /**
      * Create a new message instance.
+     * @param array $bookingDetails
+     * @return void
      */
-    public function __construct($data) // Terima $data sebagai parameter
+    public function __construct($bookingDetails) // Terima $data sebagai parameter
     {
-        $this->data = $data; // Inisialisasi data
+        $this->bookingDetails = $bookingDetails; // Inisialisasi data
     }
 
     /**
@@ -27,8 +29,7 @@ class BookingConfirmation extends Mailable
      */
     public function build()
     {
-        return $this->subject('Booking Confirmation')
-                    ->view('email.booking_confirmation') // Ganti dengan nama view yang sesuai
-                    ->with('data', $this->data); // Kirim data ke view
+        return $this->subject('Konfirmasi Pemesanan Ruangan')
+            ->view('emails.booking');
     }
 }
