@@ -4,6 +4,8 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Mail;
 use App\Mail\BookingConfirmation;
+use App\Mail\BookingAcceptedMail;
+use App\mail\BookingRejectedMail;
 
 class EmailService
 {
@@ -14,10 +16,20 @@ class EmailService
      * @throws \Exception
      * @return void
      */
-    public function sendBookingNotification($email, $bookingDetails)
+
+    public function sendBookingAcceptedConfirmation($email, $bookingDetails)
     {
         try {
-            Mail::to($email)->send(new BookingConfirmation($bookingDetails));
+            Mail::to($email)->send(new BookingAcceptedMail($bookingDetails));
+        } catch (\Exception $e) {
+            throw new \Exception('Gagal mengirim email: ' . $e->getMessage());
+        }
+    }
+
+    public function sendBookingRejectedConfirmation($email, $bookingDetails)
+    {
+        try {
+            Mail::to($email)->send(new BookingRejectedMail($bookingDetails));
         } catch (\Exception $e) {
             throw new \Exception('Gagal mengirim email: ' . $e->getMessage());
         }

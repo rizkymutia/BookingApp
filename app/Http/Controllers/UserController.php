@@ -23,8 +23,9 @@ class UserController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'nomor' => 'required|string',
+            'email' => 'required|string',
             'ruang' => 'required|string',
+            'kegiatan' => 'required|string',
             'jam_mulai' => 'required|date_format:H:i',
             'jam_selesai' => 'required|date_format:H:i',
             'tanggal' => 'required|date|after_or_equal:today',
@@ -62,8 +63,9 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'nomor' => 'required|string',
+            'email' => 'required|string',
             'ruang' => 'required|string',
+            'kegiatan' => 'required|string',
             'jam_mulai' => 'required|date_format:H:i',
             'jam_selesai' => 'required|date_format:H:i',
             'tanggal' => 'required|date|after_or_equal:today',
@@ -82,8 +84,9 @@ class UserController extends Controller
 
         $userData = UserData::create([
             'name' => $request->input('name'),
-            'nomor' => $request->input('nomor'),
+            'email' => $request->input('email'),
             'ruang' => $request->input('ruang'),
+            'kegiatan' => $request->input('kegiatan'),
             'jam_mulai' => $request->input('jam_mulai'),
             'jam_selesai' => $request->input('jam_selesai'),
             'tanggal' => $request->input('tanggal'),
@@ -91,8 +94,9 @@ class UserController extends Controller
 
         $bookingDetails = [
             'name' => $request->input('name'),
-            'nomor' => $request->input('nomor'),
+            'email' => $request->input('email'),
             'ruang' => $request->input('ruang'),
+            'kegiatan' => $request->input('kegiatan'),
             'jam_mulai' => $request->input('jam_mulai'),
             'jam_selesai' => $request->input('jam_selesai'),
             'tanggal' => $request->input('tanggal'),
@@ -129,8 +133,9 @@ class UserController extends Controller
         // Simpan data ke database setelah konfirmasi
         UserData::create([
             'name' => $data['name'],
-            'nomor' => $data['nomor'],
+            'email' => $data['email'],
             'ruang' => $data['ruang'],
+            'kegiatan' => $data['kegiatan'],
             'jam_mulai' => $data['jam_mulai'],
             'jam_selesai' => $data['jam_selesai'],
             'tanggal' => $data['tanggal'],
@@ -138,8 +143,9 @@ class UserController extends Controller
 
         return view('confirm', [
             'name' => $data['name'],
-            'nomor' => $data['nomor'],
+            'email' => $data['email'],
             'ruang' => $data['ruang'],
+            'kegiatan' => $data['kegiatan'],
             'jam_mulai' => $data['jam_mulai'],
             'jam_selesai' => $data['jam_selesai'],
             'tanggal' => $data['tanggal'],

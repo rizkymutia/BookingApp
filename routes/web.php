@@ -14,7 +14,8 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 // Authentication routes
 Auth::routes();
 Route::middleware(['auth'])->group(function () {
-    Route::post('/confirm-booking', [BookingController::class, 'confirmBooking']);
+    Route::post('/confirm-booking', [BookingController::class, 'confirmBooking'])->name('booking.confirmBooking');
+    Route::post('/booking/cancel', [BookingController::class, 'cancelBooking'])->name('booking.cancelBooking');
 });
 
 // Authenticated routes
@@ -35,6 +36,9 @@ Route::prefix('admin')->group(function () {
     Route::patch('/update/{id}', [AdminDashboardController::class, 'update'])->name('admin.update');
     Route::delete('/delete/{id}', [AdminDashboardController::class, 'destroy'])->name('admin.delete');
     Route::delete('/mass-delete', [AdminDashboardController::class, 'massDelete'])->name('admin.massDelete');
+    Route::post('/send-email/{id}/approved', [AdminDashboardController::class, 'sendEmail'])->name('emails.approved');
+    Route::post('/send-email/{id}/rejected', [AdminDashboardController::class, 'rejectEmail'])->name('emails.rejected');
+
 
     // Admin login routes
     Route::get('/login', [AdminController::class, 'showLoginForm'])->name('admin.login');

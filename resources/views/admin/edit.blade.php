@@ -38,9 +38,9 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="nomor">Nomor HP : </label>
+                            <label for="email">Email : </label>
                             <div class="col-md-6">
-                                <input type="text" id="nomor" name="nomor" value="{{ old('nomor') ?? $userData->nomor }}" required>
+                                <input type="email" id="email" name="email" value="{{ old('email') ?? $userData->email }}" required>
                             </div>
                         </div>
 
@@ -48,10 +48,23 @@
                             <label for="ruang">Ruangan : </label>
                             <div class="col-md-6">
                                 <select name="ruang" id="ruang" required>
-                                    <option value="ruang1" {{ (old('ruang') ?? $userData->ruang ?? '') === 'ruang1' ? 'selected' : '' }}>Ruang 1</option>
-                                    <option value="ruang2" {{ (old('ruang') ?? $userData->ruang ?? '') === 'ruang2' ? 'selected' : '' }}>Ruang 2</option>
-                                    <option value="ruang3" {{ (old('ruang') ?? $userData->ruang ?? '') === 'ruang3' ? 'selected' : '' }}>Ruang 3</option>
+                                    <option value="Aula Lantai III :R.Ki Hajar Dewantara" {{ (old('ruang') ?? $userData->ruang ?? '') === 'Aula Lantai III :R.Ki Hajar Dewantara' ? 'selected' : '' }}>Aula Lantai III :R.Ki Hajar Dewantara</option>
+                                    <option value="R.Rapat Kecil Lantai III :R.P.Diponegoro" {{ (old('ruang') ?? $userData->ruang ?? '') === 'R.Ruant Kecil Lantai III :R.P.Diponegoro' ? 'selected' : '' }}>R.Ruant Kecil Lantai III :R.P.Diponegoro</option>
+                                    <option value="R.Rapat 1 Lantai II :R.Pangsar Sudirman" {{ (old('ruang') ?? $userData->ruang ?? '') === 'R.Rapat 1 Lantai II :R.Pangsar Sudirman' ? 'selected' : '' }}>R.Rapat 1 Lantai II :R.Pangsar Sudirman</option>
+                                    <option value="R.Dr.Sutomo :R.Rapat II Lantai II" {{ (old('ruang') ?? $userData->ruang ?? '') === 'R.Dr.Sutomo :R.Rapat II Lantai II' ? 'selected' : '' }}>R.Dr.Sutomo :R.Rapat II Lantai II</option>
+                                    <option value="Dr.Wahidin Sudiro Husodo :R.Rapat Hall" {{ (old('ruang') ?? $userData->ruang ?? '') === 'Dr.Wahidin Sudiro Husodo :R.Rapat Hall' ? 'selected' : '' }}>Dr.Wahidin Sudiro Husodo :R.Rapat Hall</option>
+                                    <option value="R.Rapat R.A Kartini :R.Rapat Lantai I" {{ (old('ruang') ?? $userData->ruang ?? '') === 'R.Rapat R.A Kartini :R.Rapat Lantai I' ? 'selected' : '' }}>R.Rapat R.A Kartini :R.Rapat Lantai I</option>
+                                    <option value="R.H.Cokroaminoto :Ex SKB Utara" {{ (old('ruang') ?? $userData->ruang ?? '') === 'R.H.Cokroaminoto :Ex SKB Utara' ? 'selected' : '' }}>R.H.Cokroaminoto :Ex SKB Utara</option>
+                                    <option value="R.H.Agus Salim :Aula Ex SKB" {{ (old('ruang') ?? $userData->ruang ?? '') === 'R.H.Agus Salim :Aula Ex SKB' ? 'selected' : '' }}>R.H.Agus Salim :Aula Ex SKB</option>
+                                    <option value="R.Sekretariat Dewan Pendidikan :Ex SKB Utara" {{ (old('ruang') ?? $userData->ruang ?? '') === 'R.Sekretariat Dewan Pendidikan :Ex SKB Utara' ? 'selected' : '' }}>R.Sekretariat Dewan Pendidikan :Ex SKB Utara</option>
+                                    <option value="R.Rapat Sultan Agung: R.Rapat Lantai III Kecil" {{ (old('ruang') ?? $userData->ruang ?? '') === 'R.Rapat Sultan Agung :R.Rapat Lantai III Kecil' ? 'selected' : '' }}>R.Rapat Sultan Agung :R.Rapat Lantai III Kecil</option>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="kegiatan">Kegiatan : </label>
+                            <div class="col-md-6">
+                                <input type="text" id="kegiatan" name="kegiatan" value="{{ old('kegiatan') ?? $userData->kegiatan ?? '' }}" required>
                             </div>
                         </div>
 

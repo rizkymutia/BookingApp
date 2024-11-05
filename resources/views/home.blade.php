@@ -28,9 +28,9 @@
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <label for="nomor" class="col-md-4 col-form-label text-md-end">{{ __('Nomor HP') }}</label>
+                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email') }}</label>
                             <div class="col-md-6">
-                                <input type="text" id="nomor" name="nomor" required placeholder="+62">
+                                <input type="email" id="email" name="email" required placeholder="Masukkan Email">
                             </div>
                         </div>
                         <div>
@@ -47,6 +47,12 @@
                                 <option value="R.Sekretariat Dewan Pendidikan :Ex SKB Utara">R.Sekretariat Dewan Pendidikan :Ex SKB Utara</option>
                                 <option value="R.Rapat Sultan Agung :R.Rapat Lantai III Kecil">R.Rapat Sultan Agung :R.Rapat Lantai III Kecil</option>
                             </select>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="kegiatan" class="col-md-4 col-form-label text-md-end">{{ __('Kegiatan') }}</label>
+                            <div class="col-md-6">
+                                <input type="text" id="kegiatan" name="kegiatan" required placeholder="Masukkan Kegiatan">
+                            </div>
                         </div>
                         <div>
                             <label for="jam">Jam Mulai : </label>

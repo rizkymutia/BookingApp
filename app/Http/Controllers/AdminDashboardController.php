@@ -8,12 +8,24 @@ namespace App\Http\Controllers;
 use App\Models\UserData;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use App\Mail\BookingAcceptedMail;
+use Illuminate\Support\Facades\Mail;
+use App\Services\EmailService;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 
 
 class AdminDashboardController extends Controller
 {
+    private $emailService;
+
+    public function __construct(EmailService $emailService)
+    {
+        $this->emailService = $emailService;
+    }
+
     public function index()
     {
         $userData = UserData::all();
@@ -34,8 +46,9 @@ class AdminDashboardController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'nomor' => 'required|string',
+            'email' => 'required|string',
             'ruang' => 'required|string',
+            'kegiatan' => 'required|string',
             'jam_mulai' => 'required|date_format:H:i',
             'jam_selesai' => 'required|date_format:H:i|after:jam_mulai',
             'tanggal' => 'required|date',
@@ -43,7 +56,7 @@ class AdminDashboardController extends Controller
 
         $userData = UserData::where('user_id', $id)->first();
 
-        $userData->update($request->only(['name', 'nomor', 'ruang', 'jam_mulai', 'jam_selesai', 'tanggal']));
+        $userData->update($request->only(['name', 'email', 'ruang', 'jam_mulai', 'jam_selesai', 'tanggal']));
 
         return redirect()->route('admin.dashboard')->with('success', 'User data berhasil diperbarui!');
     }

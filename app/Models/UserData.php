@@ -15,23 +15,11 @@ class UserData extends Model
 
     protected $fillable = [
         'name',
-        'nomor',
+        'email',
         'ruang',
+        'kegiatan',
         'jam_mulai',
         'jam_selesai',
         'tanggal',
     ];
-
-    // Mutator untuk memastikan nomor telepon dalam format internasional
-    public function setPhoneNumberAttribute($value)
-    {
-        // Cek apakah nomor sudah mengandung kode negara
-        if (substr($value, 0, 1) !== '+') {
-            // Jika tidak ada kode negara, tambahkan kode negara (mis. +62)
-            $value = '+62' . ltrim($value, '0'); // Menghapus 0 di awal jika ada
-        }
-
-        // Simpan nomor telepon yang telah diformat
-        $this->attributes['nomor'] = $value;
-    }
 }

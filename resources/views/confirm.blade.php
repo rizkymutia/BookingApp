@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header"></div>
+                <div class="card-header">Konfirmasi Pemesanan!</div>
 
                 <div class="card-body">
                     @if (session('success'))
@@ -16,8 +16,9 @@
                 
                     <h2>Data yang Telah Dimasukkan</h2>
                     <p><strong>Nama:</strong> {{ session('confirmData')['name'] ?? 'No data' }}</p>
-                    <p><strong>Nomor:</strong> {{ session('confirmData')['nomor'] ?? 'No data' }}</p>
+                    <p><strong>Nomor:</strong> {{ session('confirmData')['email'] ?? 'No data' }}</p>
                     <p><strong>Ruangan:</strong> {{ session('confirmData')['ruang'] ?? 'No data' }}</p>
+                    <p><strong>Kegiatan:</strong> {{ session('confirmData')['kegiatan'] ?? 'No data' }}</p>
                     <p><strong>Jam Mulai:</strong> {{ session('confirmData')['jam_mulai'] ?? 'No data' }}</p>
                     <p><strong>Jam Selesai:</strong> {{ session('confirmData')['jam_selesai'] ?? 'No data' }}</p>
                     <p><strong>Tanggal:</strong> {{ session('confirmData')['tanggal'] ?? 'No data' }}</p>
@@ -28,8 +29,9 @@
                     <form action="{{ route('booking.confirmBooking') }}" method="POST">
                         @csrf
                         <input type="hidden" name="nama" value="{{ session('confirmData')['name'] ?? 'No data' }}">
-                        <input type="hidden" name="nomor" value="{{ session('confirmData')['nomor'] ?? 'No data' }}">
+                        <input type="hidden" name="nomor" value="{{ session('confirmData')['email'] ?? 'No data' }}">
                         <input type="hidden" name="ruang" value="{{ session('confirmData')['ruang'] ?? 'No data' }}">
+                        <input type="hidden" name="kegiatan" value="{{ session('confirmData')['kegiatan'] ?? 'No data' }}">
                         <input type="hidden" name="jam_mulai" value="{{ session('confirmData')['jam_mulai'] ?? 'No data' }}">
                         <input type="hidden" name="jam_selesai" value="{{ session('confirmData')['jam_selesai'] ?? 'No data' }}">
                         <input type="hidden" name="tanggal" value="{{ session('confirmData')['tanggal'] ?? 'No data' }}">
@@ -77,39 +79,10 @@
         event.preventDefault();
         Swal.fire({
             title: "Berhasil!",
-            text: "Berhasil mengisi data! Email akan segera dikirimkan!",
+            text: "Permintaan anda sudah terkirim!. Silahkan menunggu email konfirmasi.",
             icon: "success",
             timer: 5000,
-        }).then(() => {
-            fetch("{{ route('booking.confirmBooking') }}", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
-                },
-                body: JSON.stringify({
-                    booking_details: {
-                        name: "{{ session('confirmData')['name'] ?? 'No data' }}",
-                        nomor: "{{ session('confirmData')['nomor'] ?? 'No data' }}",
-                        ruang: "{{ session('confirmData')['ruang'] ?? 'No data' }}",
-                        jam_mulai: "{{ session('confirmData')['jam_mulai'] ?? 'No data' }}",
-                        jam_selesai: "{{ session('confirmData')['jam_selesai'] ?? 'No data' }}",
-                        tanggal: "{{ session('confirmData')['tanggal'] ?? 'No data' }}"
-                    }
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    console.log("Email konfirmasi terkirim");
-                }else {
-                    console.error(data.error);
-                    alert('Gagal mengirim email konfirmasi')
-                }
-            })
-            // After the alert is closed, submit the form
-            .catch(error => console.error('Error:', error));
-        });
+        });    
     }
 </script>
 @endsection
