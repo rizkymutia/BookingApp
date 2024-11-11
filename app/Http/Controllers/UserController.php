@@ -16,7 +16,7 @@ class UserController extends Controller
     public function showForm()
     {
 
-        return view('home');
+        return view('form');
     }
 
     public function confirm(Request $request)
@@ -56,7 +56,7 @@ class UserController extends Controller
 
     public function dashboard()
     {
-        return view('home');
+        return redirect()->route('form');
     }
 
     public function storeData(Request $request)
@@ -102,7 +102,7 @@ class UserController extends Controller
             'tanggal' => $request->input('tanggal'),
         ];
         // Tambahkan return setelah penyimpanan data
-        $bookingDetails = $request->only(['name', 'nomor', 'ruang', 'jam_mulai', 'jam_selesai', 'tanggal']);
+        $bookingDetails = $request->only(['name', 'email', 'ruang', 'jam_mulai', 'jam_selesai', 'tanggal']);
         session(['booking_details' => $bookingDetails]);
 
         return redirect()->route('booking.confirmBooking');
@@ -124,7 +124,7 @@ class UserController extends Controller
         if (!$data || !isset($data['name'])) {
             Log::error('Session confirmData not available or missing required fields');
 
-            return redirect()->route('home')->with('error', 'No data available.');
+            return redirect()->route('form')->with('error', 'No data available.');
         }
 
         // Akses data dengan aman

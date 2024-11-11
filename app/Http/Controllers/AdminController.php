@@ -4,7 +4,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
+use App\Models\UserData;
+use App\Notifications\BookingAccepted;
+use App\Notifications\BookingRejected;
+use Illuminate\Support\Facades\Notification;
+
 
 
 class AdminController extends Controller
@@ -46,5 +50,53 @@ class AdminController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/admin/login');
+    }
+
+    public function acceptBooking($user_id, Request $request)
+    {
+        $data = UserData::find($user_id);
+        if ($data) {
+            $data->status = "diterima";
+            $data->save();
+
+            $bookingDetails = [
+                'name' => $data->name,
+                'ruang' => $data->ruang,
+                'kegiatan' => $data->kegiatan,
+                'tanggal' => $data->tanggal,
+                'jam_mulai' => $data->jam_mulai,
+                'jam_selesai' => $data->jam_selesai,
+            ];
+
+            Notification::route('mail', $data->email)->notify(new BookingAccepted($bookingDetails));
+
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['success' => false, 'message' => 'Data tidak ditemukan.']);
+    }
+
+    public function rejectBooking($user_id, Request $request)
+    {
+        $data = UserData::find($user_id);
+        if ($data) {
+            $data->status = "ditolak";
+            $data->save();
+
+            $bookingDetails = [
+                'name' => $data->name,
+                'ruang' => $data->ruang,
+                'kegiatan' => $data->kegiatan,
+                'tanggal' => $data->tanggal,
+                'jam_mulai' => $data->jam_mulai,
+                'jam_selesai' => $data->jam_selesai,
+            ];
+
+            Notification::route('mail', $data->email)->notify(new BookingRejected($bookingDetails));
+
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['success' => false, 'message' => 'Data tidak ditemukan.']);
     }
 }

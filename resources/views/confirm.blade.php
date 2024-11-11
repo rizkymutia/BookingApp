@@ -16,7 +16,7 @@
                 
                     <h2>Data yang Telah Dimasukkan</h2>
                     <p><strong>Nama:</strong> {{ session('confirmData')['name'] ?? 'No data' }}</p>
-                    <p><strong>Nomor:</strong> {{ session('confirmData')['email'] ?? 'No data' }}</p>
+                    <p><strong>Email:</strong> {{ session('confirmData')['email'] ?? 'No data' }}</p>
                     <p><strong>Ruangan:</strong> {{ session('confirmData')['ruang'] ?? 'No data' }}</p>
                     <p><strong>Kegiatan:</strong> {{ session('confirmData')['kegiatan'] ?? 'No data' }}</p>
                     <p><strong>Jam Mulai:</strong> {{ session('confirmData')['jam_mulai'] ?? 'No data' }}</p>
@@ -29,7 +29,7 @@
                     <form action="{{ route('booking.confirmBooking') }}" method="POST">
                         @csrf
                         <input type="hidden" name="nama" value="{{ session('confirmData')['name'] ?? 'No data' }}">
-                        <input type="hidden" name="nomor" value="{{ session('confirmData')['email'] ?? 'No data' }}">
+                        <input type="hidden" name="email" value="{{ session('confirmData')['email'] ?? 'No data' }}">
                         <input type="hidden" name="ruang" value="{{ session('confirmData')['ruang'] ?? 'No data' }}">
                         <input type="hidden" name="kegiatan" value="{{ session('confirmData')['kegiatan'] ?? 'No data' }}">
                         <input type="hidden" name="jam_mulai" value="{{ session('confirmData')['jam_mulai'] ?? 'No data' }}">

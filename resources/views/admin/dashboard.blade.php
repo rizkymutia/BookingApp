@@ -6,7 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
     <script>
         // Function to select/deselect all checkboxes
         function toggleSelectAll(source) {
@@ -45,7 +47,6 @@
             <thead>
                 <tr>
                     <th>Select All  <input type="checkbox" onclick="toggleSelectAll(this)"></th>
-                    <th>Status</th>
                     <th>ID</th>
                     <th>Nama</th>
                     <th>Email</th>
@@ -54,6 +55,7 @@
                     <th>Jam Mulai</th>
                     <th>Jam Selesai</th>
                     <th>Tanggal</th>
+                    <th>Status</th>
                     <th>Ubah Status</th>
                     <th>Actions</th>
                 </tr>
@@ -62,8 +64,7 @@
                 @foreach($userData as $data)
                 <tr>
                     <td><input type="checkbox" name="selected_ids[]" value="{{ $data->user_id }}" class="select-item"></td>
-                    <td id="status-{{ $data->user_id }}">{{ $data->status }}</td>
-                    <td>{{ $data->user_id }}</td> <!-- Pastikan ini sesuai dengan kolom yang ada di user_data -->
+                    <td>{{ $data->user_id }}</td>
                     <td>{{ $data->name }}</td>
                     <td>{{ $data->email }}</td>
                     <td>{{ $data->ruang }}</td> 
@@ -71,13 +72,14 @@
                     <td>{{ $data->jam_mulai }}</td>
                     <td>{{ $data->jam_selesai }}</td>
                     <td>{{ $data->tanggal }}</td>
+                    <td>{{ $data->status }}</td>
                     <td>{{ $data->ubah_status }}
-                        
                         <div id="status-buttons-{{ $data->user_id }}">
                             <button type="button" onclick="alertSuccess(event, '{{ $data->user_id }}')">Diterima</button>
 
                             <button type="button" onclick="alertRejected(event, '{{ $data->user_id }}')">Ditolak</button>
                         </div>
+                    </td>
                     <td>
                         <a href="{{ route('admin.edit', $data->user_id) }}">Edit</a>
                     </td>
@@ -98,7 +100,7 @@
         return confirm('Apakah anda yakin ingin menghapus semuanya?');
     }
 
-    function alertSuccess(event) {
+    function alertSuccess(event, userId) {
         event.preventDefault();
         Swal.fire({
             title: "Berhasil!",
@@ -106,30 +108,23 @@
             icon: "success",
             timer: 5000,
         }).then(() => {
-            fetch("{{ route('booking.confirmBooking') }}", {
+            fetch(`/admin/accept-booking/${userId}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     "X-CSRF-TOKEN": "{{ csrf_token() }}"
-                },
-                body: JSON.stringify({
-                    booking_details: {
-                        name: "{{ session('confirmData')['name'] ?? 'No data' }}",
-                        nomor: "{{ session('confirmData')['email'] ?? 'No data' }}",
-                        ruang: "{{ session('confirmData')['ruang'] ?? 'No data' }}",
-                        jam_mulai: "{{ session('confirmData')['jam_mulai'] ?? 'No data' }}",
-                        jam_selesai: "{{ session('confirmData')['jam_selesai'] ?? 'No data' }}",
-                        tanggal: "{{ session('confirmData')['tanggal'] ?? 'No data' }}"
-                    }
-                })
+                
+                
+                
+                }
             })
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    console.log("Email konfirmasi terkirim");
-                }else {
-                    console.error(data.error);
-                    alert('Gagal mengirim email konfirmasi')
+                    console.log("Status berhasil diperbarui menjadi diterima");
+                    location.reload();
+                }else { 
+                    console.error('Gagal memperbarui status.')
                 }
             })
             // After the alert is closed, submit the form
@@ -137,7 +132,7 @@
         });
     }
 
-    function alertRejected(event) {
+    function alertRejected(event, userId) {
         event.preventDefault();
         Swal.fire({
             title: "Ditolak!",
@@ -145,30 +140,21 @@
             icon: "rejected",
             timer: 5000,
         }).then(() => {
-            fetch("{{ route('booking.cancelBooking') }}", {
+            fetch(`/admin/reject-booking/${userId}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     "X-CSRF-TOKEN": "{{ csrf_token() }}"
-                },
-                body: JSON.stringify({
-                    booking_details: {
-                        name: "{{ session('confirmData')['name'] ?? 'No data' }}",
-                        nomor: "{{ session('confirmData')['email'] ?? 'No data' }}",
-                        ruang: "{{ session('confirmData')['ruang'] ?? 'No data' }}",
-                        jam_mulai: "{{ session('confirmData')['jam_mulai'] ?? 'No data' }}",
-                        jam_selesai: "{{ session('confirmData')['jam_selesai'] ?? 'No data' }}",
-                        tanggal: "{{ session('confirmData')['tanggal'] ?? 'No data' }}"
-                    }
-                })
+                
+                }
             })
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    console.log("Email konfirmasi terkirim");
+                    console.log("Status berhasil diperbarui menjadi ditolak.");
+                    location.reload();
                 }else {
-                    console.error(data.error);
-                    alert('Gagal mengirim email konfirmasi')
+                    console.error('Gagal memperbarui status.')
                 }
             })
             // After the alert is closed, submit the form

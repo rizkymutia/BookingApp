@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\BookingConfirmation;
 use App\Mail\BookingAcceptedMail;
 use App\mail\BookingRejectedMail;
+use Illuminate\Support\Facades\Log;
 
 class EmailService
 {
@@ -19,6 +20,7 @@ class EmailService
 
     public function sendBookingAcceptedConfirmation($email, $bookingDetails)
     {
+        Log::info('Mengirim email ke:', ['email' => $email]);
         try {
             Mail::to($email)->send(new BookingAcceptedMail($bookingDetails));
         } catch (\Exception $e) {
@@ -28,6 +30,7 @@ class EmailService
 
     public function sendBookingRejectedConfirmation($email, $bookingDetails)
     {
+        Log::info('Mengirim email ke:', ['email' => $email]);
         try {
             Mail::to($email)->send(new BookingRejectedMail($bookingDetails));
         } catch (\Exception $e) {

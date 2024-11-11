@@ -21,5 +21,10 @@ class UserData extends Model
         'jam_mulai',
         'jam_selesai',
         'tanggal',
+        'status',
     ];
+
+    const STATUS_PENDING = 'pending';
+    const STATUS_ACCEPTED = 'accepted';
+    const STATUS_REJECTED = 'rejected';
 }
