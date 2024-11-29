@@ -1,112 +1,168 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Register') }}</div>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items:center;
+            height: 100vh;
+            margin: 0;
+            background-color: #1a1a1a;
+        }
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
-                        @csrf
+        .register-container {
+            display: flex;
+            width: 70%;
+            background-color: #333;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
 
-                        <div class="row mb-3">
-                            <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Name') }}</label>
+        .register-left {
+            background: linear-gradient(135deg, #2d2d2d, #1a1a1a);
+            color: white;
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
 
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
-                                <p id="name-alert" style="color: red; font-size: 12px; margin-top: 5px;"></p>
-                               
-                            </div>
-                        </div>
+        .register-left h2 {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
 
-                        <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
+        .register-left p {
+            font-size: 18px;
+            opacity: 0.8;
+        }
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+        .register-right {
+            width: 50%;
+            padding: 40px;
+            background-color: #282828;
+            color: #fff;
+        }
 
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+        .form-control {
+            background-color: #444;
+            color: #ddd;
+            border: none;
+            border-radius: 4px;
+        }
 
-                        <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
+        .form-control:focus {
+            background-color: #555;
+            color: #fff;
+        }
 
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-                                <p id="password-alert" style="color: red; font-size: 12px; margin-top: 5px;"></p>
-                            </div>
-                        </div>
+        .btn-primary {
+            background-color: #4a90e2;
+            border: none;
+            border-radius: 4px;
+        }
 
-                        <div class="row mb-3">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ __('Confirm Password') }}</label>
+        .btn-primary:hover {
+            background-color: #357ABD;
+        }
 
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-                            </div>
-                        </div>
+        .btn-outline-white {
+            border-color: white;
+            color: white;
+        }
 
-                        <div class="row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" onclick="alertSuccess(event)" class="btn btn-primary">
-                                    {{ __('Register') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+        .btn-outline-white:hover {
+            background-color: white;
+            color: #2B7A78;
+        }
+
+    </style>
+<body>
+    <div class="register-container">
+        <div class="register-left">
+            <h2>Silahkan mengisi form disini untuk membuat akun.</h2>
+            <p>Apabila sudah memiliki akun, silahkan login.</p>
+            <a href="{{ route('login') }}" class="btn bt-light btn-outline-light w-75 mt-3">Login</a>
+        </div>
+        <div class="col-md-6 p-5">
+            <h4 class="mb-4" style="color: white;">Registrasi</h4>
+            <form method="POST" action="{{ route('register') }}">
+                @csrf
+                <div class="form-group">
+                    <label for="name" style="color: white;">Name</label>
+                    <input id="name" type="text" class="form-control" name="name" required autocomplete="name" autofocus>
                 </div>
-            </div>
+
+                <div class="form-group">
+                    <label for="email" style="color: white;">Email Address</label>
+                    <input id="email" type="email" class="form-control" name="email" required autocomplete="email">
+                </div>
+
+                <div class="form-group">
+                    <label for="password" style="color: white;">Password</label>
+                    <input id="password" type="password" class="form-control " name="password" required autocomplete="new-password">
+                    <p id="password-alert" style="color: red; font-size: 12px; margin-top: 5px;"></p>
+                </div>
+
+                <div class="form-group">
+                    <label for="password-confirm" style="color: white;">Konfirmasi Password</label>
+                    <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                    <p id="password-alert" style="color: red; font-size: 12px; margin-top: 5px;"></p>
+                </div>
+
+                <button type="submit" onclick="alertSuccess(event)" class="btn btn-primary btn-block"> {{ __('Register') }}</button>
+            </form>
         </div>
     </div>
-</div>
+    
 
-<script>
-    const passwordInput = document.getElementById('password');
-    const passwordAlert = document.getElementById('password-alert');
 
-    passwordInput.addEventListener('input', () => {
-        if (passwordInput.value.length < 8) {
-            passwordAlert.textContent = '*Password harus terdiri dari 8 karakter atau lebih';
-        }else {
-            passwordAlert.textContent = '';
-        }
-    });
+    <script>
+        const passwordInput = document.getElementById('password');
+        const passwordAlert = document.getElementById('password-alert');
 
-    const nameInput = document.getElementById('nama');
-    const nameAlert = document.getElementById('name-alert');
-
-    nameInput.addEventListener('input', () => {
-            const nameValue = nameInput.value;
-            const regex = /^[a-zA-Z\s]+$/;
-            if (!regex.test(nameValue) || nameValue.length < 3) {
-                nameAlert.textContent = 'Nama harus berupa huruf dan minimal 3 karakter';
-                nameAlert.classList.add('error');
-            } else {
-                nameAlert.textContent = '';
-                nameAlert.classList.remove('error');
+        passwordInput.addEventListener('input', () => {
+            if (passwordInput.value.length < 8) {
+                passwordAlert.textContent = '*Password harus terdiri dari 8 karakter atau lebih';
+            }else {
+                passwordAlert.textContent = '';
             }
         });
 
-        function alertSuccess(event) {
-        event.preventDefault(); // Prevent form submission
-        
-        Swal.fire({
-            title: "Berhasil!",
-            text: "Berhasil Membuat Akun!",
-            icon: "success",
-            timer: 2000,
-            showConfirmButton: false
-        }).then(() => {
-            // After the alert is closed, submit the form
-            event.target.closest('form').submit();
-        });
-    }
-  
-</script>
+        const nameInput = document.getElementById('nama');
+        const nameAlert = document.getElementById('name-alert');
+
+        nameInput.addEventListener('input', () => {
+                const nameValue = nameInput.value;
+                const regex = /^[a-zA-Z\s]+$/;
+                if (!regex.test(nameValue) || nameValue.length < 3) {
+                    nameAlert.textContent = 'Nama harus berupa huruf dan minimal 3 karakter';
+                    nameAlert.classList.add('error');
+                } else {
+                    nameAlert.textContent = '';
+                    nameAlert.classList.remove('error');
+                }
+            });
+
+            function alertSuccess(event) {
+            event.preventDefault(); // Prevent form submission
+            
+            Swal.fire({
+                title: "Berhasil!",
+                text: "Berhasil Membuat Akun!",
+                icon: "success",
+                timer: 2000,
+                showConfirmButton: false
+            }).then(() => {
+                // After the alert is closed, submit the form
+                event.target.closest('form').submit();
+            });
+        }
+    
+    </script>
 @endsection

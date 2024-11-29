@@ -1,11 +1,42 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<style>
+     body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #1a1a1a;
+        }
+
+        .data-table {
+            margin: 20px auto;
+            width: 90%;
+            max-width: 400px;
+            border-collapse: collapse;
+        }
+
+        .data-table td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        .data-table td:first-child {
+            font-weight: bold;
+            width: 40%;
+        }
+
+</style>
+<body>
+<div class="container my-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Konfirmasi Pemesanan!</div>
+            <div class="card bg-dark text-light border-light-shadow" style="background: linear-gradient(135deg, #2d2d2d, #1a1a1a)">
+                <div class="card-header bg-secondary text-center text-light" style="background: linear-gradient(135deg, #2d2d2d, #1a1a1a)">
+                    <h4>Konfirmasi Pemesanan!</h4>
+                </div>
 
                 <div class="card-body">
                     @if (session('success'))
@@ -14,17 +45,39 @@
                         </div>
                     @endif
                 
-                    <h2>Data yang Telah Dimasukkan</h2>
-                    <p><strong>Nama:</strong> {{ session('confirmData')['name'] ?? 'No data' }}</p>
-                    <p><strong>Email:</strong> {{ session('confirmData')['email'] ?? 'No data' }}</p>
-                    <p><strong>Ruangan:</strong> {{ session('confirmData')['ruang'] ?? 'No data' }}</p>
-                    <p><strong>Kegiatan:</strong> {{ session('confirmData')['kegiatan'] ?? 'No data' }}</p>
-                    <p><strong>Jam Mulai:</strong> {{ session('confirmData')['jam_mulai'] ?? 'No data' }}</p>
-                    <p><strong>Jam Selesai:</strong> {{ session('confirmData')['jam_selesai'] ?? 'No data' }}</p>
-                    <p><strong>Tanggal:</strong> {{ session('confirmData')['tanggal'] ?? 'No data' }}</p>
-                    <p><strong>Apa anda yakin mengirim formulir ini ?</strong></p>
-                
-                    <!-- Formulir HTML -->
+                    <h5 class="text-warning" style="font-weight: bold; text-align: center;">Data yang Telah Dimasukkan</h5>
+                    <table class="data-table">
+                        <tr>
+                            <td><strong>Nama:</strong></td>
+                            <td>{{ session('confirmData')['name'] ?? 'No data' }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Email:</strong></td>
+                            <td>{{ session('confirmData')['email'] ?? 'No data' }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ruangan:</strong></td>
+                            <td>{{ session('confirmData')['ruang'] ?? 'No data' }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Kegiatan:</strong></td>
+                            <td>{{ session('confirmData')['kegiatan'] ?? 'No data' }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Jam Mulai:</strong></td>
+                            <td>{{ session('confirmData')['jam_mulai'] ?? 'No data' }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Jam Selesai:</strong></td>
+                            <td>{{ session('confirmData')['jam_selesai'] ?? 'No data' }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Tanggal:</strong></td>
+                            <td>{{ session('confirmData')['tanggal'] ?? 'No data' }}</td>
+                        </tr>
+                    </table>
+                    
+                    <p style="font-weight: bold; text-align: center;"><strong>Apa anda yakin mengirim formulir ini ?</strong></p>
 
                     <form action="{{ route('booking.confirmBooking') }}" method="POST">
                         @csrf
@@ -37,9 +90,11 @@
                         <input type="hidden" name="tanggal" value="{{ session('confirmData')['tanggal'] ?? 'No data' }}">
                         <input type="hidden" name="booking_details" value="{{ json_encode(session('booking_details')) }}">
 
-                        <button type="submit" onclick="alertSuccess(event)">Submit</button>
-                        <button type="button" onclick="window.location.href='{{ route('home') }}'">Kembali</button>
-
+                        
+                        <div class="text-center">
+                            <button type="button" class="btn btn-danger mx-2" onclick="window.location.href='{{ route('home') }}'">Kembali</button>
+                            <button type="submit" class="btn btn-success mx-2"onclick="alertSuccess(event)">Submit</button>     
+                        </div>
                         @if (session('success'))
                         <div class="alert alert-success">
                             {{ session('success') }}
@@ -51,6 +106,14 @@
                         </div>
                         @endif
                     </form>
+                    <div style="text-align: right;">
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                        <button class="btn btn-danger" style="margin-left: 100px;"onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            Logout
+                        </button>
+                    </div>
                 </div> 
             </div>
         </div>
