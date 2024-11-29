@@ -83,6 +83,51 @@
         .form-check-label {
             color: #ddd;
         }
+
+        @media (max-width: 768px) {
+            .login-container {
+                flex-direction: column;
+                width: 90%;
+            }
+
+            .login-left, .login-right {
+                width: 100%;
+                padding: 20px;
+                text-align: center;
+            }
+
+            .login-left h2 {
+                font-size: 20px;
+            }
+
+            .login-left p {
+                font-size: 14px;
+            }
+
+            .login-right {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .login-left h2 {
+                font-size: 18px;
+            }
+
+            .login-left p {
+                font-size: 12px;
+            }
+
+            .form-control {
+                font-size: 14px;
+                padding: 8px;
+            }
+
+            .btn-primary {
+                font-size: 14px;
+                padding: 10px 15px;
+            }
+        }
     </style>
 <body>
     <div class="login-container">

@@ -81,6 +81,41 @@
             color: #2B7A78;
         }
 
+        @media (max-width: 768px) {
+            .register-container {
+                flex-direction: column;
+                width: 90%;
+            }
+
+            .register-left {
+                display: none;
+            }
+
+            .register-right {
+                width: 100%;
+                padding: 20px;
+            }
+
+            .btn-outline-white {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .register-left {
+                display: none;
+            }
+
+            .form-control {
+                font-size: 14px;
+            }
+
+            .btn-primary {
+                font-size: 14px;
+                padding: 10px;
+            }
+        }
+
     </style>
 <body>
     <div class="register-container">

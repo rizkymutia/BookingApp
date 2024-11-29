@@ -6,9 +6,55 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
             background-color: #1a1a1a;
+            overflow-y: auto;
+        }
+
+        .container {
+            width: 100%;
+            padding: 20px;
+        }
+
+        .card {
+            margin: 20px auto;
+            padding: 20px;
+            max-width: 800px;
+            overflow-x: auto;
+        }
+
+        .form-control {
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .card-header h4 {
+                font-size: 18px;
+            }
+
+            .form-group {
+                width: 100%;
+            }
+
+            .d-flex {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .btn {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card-header h4 {
+                font-size: 16px;
+            }
+
+            .btn {
+                font-size: 12px;
+            }
         }
 </style>
 <body>

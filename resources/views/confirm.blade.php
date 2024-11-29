@@ -9,13 +9,20 @@
             height: 100vh;
             margin: 0;
             background-color: #1a1a1a;
+            overflow-y: auto;
+        }
+
+        .container {
+            width: 100%;
+            padding: 20px;
         }
 
         .data-table {
             margin: 20px auto;
-            width: 90%;
+            width: 100%;
             max-width: 400px;
             border-collapse: collapse;
+            word-wrap: break-word;
         }
 
         .data-table td {
@@ -28,14 +35,47 @@
             width: 40%;
         }
 
+        .btn {
+            padding: 8px 15px;
+            font-size: 14px;
+        }
+
+        .card {
+            margin: 20px auto;
+            padding: 20px;
+            max-width: 100%;
+            overflow-x: auto;
+        }
+        @media (max-width: 768px) {
+            .card-header h4 {
+                font-size: 18px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card-header h4 {
+                font-size: 16px;
+            }
+
+            .btn {
+                font-size: 12px;
+            }
+        }
+
 </style>
 <body>
 <div class="container my-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card bg-dark text-light border-light-shadow" style="background: linear-gradient(135deg, #2d2d2d, #1a1a1a)">
-                <div class="card-header bg-secondary text-center text-light" style="background: linear-gradient(135deg, #2d2d2d, #1a1a1a)">
-                    <h4>Konfirmasi Pemesanan!</h4>
+                <div class="card-header bg-secondary text-center text-light d-flex justify-content-between align-items-center" style="background: linear-gradient(135deg, #2d2d2d, #1a1a1a)">
+                    <h4>Konfirmasi Pemesanan!</h4> 
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                    <button class="btn btn-danger btn-sm" style="margin-left: 100px;"onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        Logout
+                    </button> 
                 </div>
 
                 <div class="card-body">
@@ -106,14 +146,6 @@
                         </div>
                         @endif
                     </form>
-                    <div style="text-align: right;">
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                            @csrf
-                        </form>
-                        <button class="btn btn-danger" style="margin-left: 100px;"onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            Logout
-                        </button>
-                    </div>
                 </div> 
             </div>
         </div>
